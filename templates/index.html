@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitoring dumps</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+
+
+
+{# <form action="/monitoring/" method="get" class="form-inline">#}
+{#    <div class="form-group mb-2">#}
+{#        <label   for="staticEmail2" class="sr-only">Модель:</label>#}
+{#         <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Модель">#}
+{#        <select class="custom-select" name="q">#}
+{#          <option value='all' selected>Все</option>#}
+{#            {% for model in list_models %}#}
+{#                <option value="{{model}}">{{model}}</option>#}
+{#            {% endfor %}#}
+{#        </select>#}
+{#    </div>#}
+{#        <button type="submit" class="btn btn-primary mb-2">Применить</button>#}
+{# </form>#}
+
+<form action="/monitoring/" method="get" >
+  <div class="form-row align-items-center">
+    <div class="col-auto my-1">
+      <label class="mr-sm-2" for="inlineFormCustomSelect">Модель : </label>
+      <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="q">
+         <option value='all' selected>Все</option>
+            {% for model in list_models %}
+                <option value="{{model}}">{{model}}</option>
+            {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-auto my-1">
+      <button type="submit" class="btn btn-primary">Применить</button>
+    </div>
+  </div>
+</form>
+<table class="table table-striped">
+  <thead>
+    <tr>
+
+      <th scope="col">Бортовой номер</th>
+      <th scope="col">Модель</th>
+      <th scope="col">Макс. грузоподъемность</th>
+        <th scope="col">Текущий вес</th>
+        <th scope="col">Перегруз %</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+{% for dump in dumps %}
+
+      <td>{{dump.dump__side_number}}</td>
+      <td>{{dump.dump__dump_model}}</td>
+      <td>{{dump.dump__max_tonnage}}</td>
+      <td>{{dump.tonnage}}</td>
+
+        {% if dump.overload > 0 %}
+            <td>{{dump.overload}}</td>
+        {% else %}
+            <td>0</td>
+        {% endif %}
+
+
+    </tr>
+
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+</body>
+</html>
